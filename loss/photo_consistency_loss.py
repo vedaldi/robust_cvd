@@ -4,7 +4,7 @@
 import torch
 import torch.nn as nn
 from typing import Dict, Tuple
-from utils.geometry import sample, pixel_grid
+from ..utils.geometry import sample, pixel_grid
 
 
 def l1(x, dim):

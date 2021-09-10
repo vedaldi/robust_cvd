@@ -9,9 +9,9 @@ import cv2
 import numpy as np
 import torch
 
-from raft.core.raft import RAFT
-from utils.flowlib import flow_to_image
-from utils.image_io import save_raw_float32_image
+from .raft.core.raft import RAFT
+from .utils.flowlib import flow_to_image
+from .utils.image_io import save_raw_float32_image
 
 
 class FlowInfer(torch.utils.data.Dataset):

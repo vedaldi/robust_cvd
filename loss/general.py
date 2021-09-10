@@ -26,7 +26,7 @@ from __future__ import print_function
 
 import numpy as np
 import torch
-from loss import util
+from . import util
 
 
 def lossfun(x, alpha, scale, approximate=False, epsilon=1e-6):

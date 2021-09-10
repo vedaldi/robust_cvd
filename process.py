@@ -14,34 +14,34 @@ import os.path as osp
 import sys
 import multiprocessing as mp
 
-sys.path.append(osp.abspath(__file__))
-sys.path.append(osp.join(osp.dirname(__file__), "lib/build"))
+# sys.path.append(osp.abspath(__file__))
+# sys.path.append(osp.join(osp.dirname(__file__), "lib/build"))
 
-print(sys.path)
+# print(sys.path)
 
 import numpy as np
 from iopath.common.file_io import g_pathmgr
 
-from lib_python import (
+from .lib.build.lib_python import (
     DepthVideo,
     FrameRange,
     initLib,
     logToStdout as glogToStdOut,
 )
 
-from depth_fine_tuning import DepthFineTuner
-from flow import Flow
-# from scale_calibration import calibrate_scale
-from utils.frame_range import FrameRange, OptionalSet
-from utils.helpers import (
+from .depth_fine_tuning import DepthFineTuner
+from .flow import Flow
+# from .scale_calibration import calibrate_scale
+from .utils.frame_range import FrameRange, OptionalSet
+from .utils.helpers import (
     disable_output_stream_buffering,
     print_banner,
     print_namespace,
     print_subbanner,
     print_title,
 )
-from video import Video, sample_pairs
-from dynamic_mask_generation import (
+from .video import Video, sample_pairs
+from .dynamic_mask_generation import (
     DEFAULT_MASK_RCNN_CONFIG_PATH,
     dynamic_mask_generation,
     get_parser,

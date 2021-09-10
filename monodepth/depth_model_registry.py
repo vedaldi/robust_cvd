@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # Copyright 2004-present Facebook. All Rights Reserved.
 
-from monodepth.depth_model import DepthModel
-from monodepth.midas_v2_model import MidasV2Model
+from .depth_model import DepthModel
+from .midas_v2_model import MidasV2Model
 
 from typing import List
 

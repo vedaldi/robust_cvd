@@ -2,9 +2,9 @@
 # Copyright 2004-present Facebook. All Rights Reserved.
 
 import torch
-from loss.general import lossfun
-from utils.torch_helpers import _device
-from loaders.video_dataset import _dtype
+from .general import lossfun
+from ..utils.torch_helpers import _device
+from ..loaders.video_dataset import _dtype
 
 
 def create_general_dist(alpha, scale):

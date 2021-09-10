@@ -3,7 +3,7 @@
 
 import torch
 import torch.nn as nn
-from loss import distance
+from . import distance
 
 
 class DisparitySmoothLoss(nn.Module):

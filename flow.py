@@ -10,10 +10,10 @@ import numpy as np
 import torch
 from iopath.common.file_io import g_pathmgr
 
-import optical_flow_homography
-from utils import consistency, flowlib, geometry, image_io, visualization
-from utils.helpers import dotdict, mkdir_ifnotexists
-from utils.torch_helpers import _device
+from . import optical_flow_homography
+from .utils import consistency, flowlib, geometry, image_io, visualization
+from .utils.helpers import dotdict, mkdir_ifnotexists
+from .utils.torch_helpers import _device
 
 RAFT_MODEL_PATH = "models/raft-things.pth"
 

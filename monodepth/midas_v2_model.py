@@ -3,8 +3,8 @@
 
 import torch
 
-from monodepth.depth_model import DepthModel
-from monodepth.midas_v2.midas_net import MidasNet
+from .depth_model import DepthModel
+from .midas_v2.midas_net import MidasNet
 
 
 MIDAS_WEIGHTS_PATH = (

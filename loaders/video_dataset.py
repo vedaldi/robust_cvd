@@ -11,9 +11,9 @@ import torch.utils.data as data
 import torch
 from typing import List, Optional
 
-from utils import image_io, frame_sampling as sampling
+from ..utils import image_io, frame_sampling as sampling
 
-from lib_python import (DepthVideo, ValueXformType, DepthXformType, SpatialXformType)
+from ..lib.build.lib_python import (DepthVideo, ValueXformType, DepthXformType, SpatialXformType)
 
 _dtype = torch.float32
 

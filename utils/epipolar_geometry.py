@@ -4,7 +4,7 @@
 from collections import namedtuple
 from typing import Optional
 import torch
-from utils import (
+from . import (
     geometry as geom,
 )
 

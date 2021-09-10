@@ -5,8 +5,8 @@ import os
 from os.path import join as pjoin
 from typing import Dict, Tuple
 import numpy as np
-from utils import load_colmap, image_io as tr
-from utils.geometry_np import reproject, project, sample
+from . import load_colmap, image_io as tr
+from .geometry_np import reproject, project, sample
 
 
 def store_visible_points_per_image(

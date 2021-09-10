@@ -24,16 +24,16 @@ import torchvision.utils as vutils
 from tensorboard.compat.tensorflow_stub.io.gfile import register_filesystem
 from torch.utils.data import DataLoader
 from torch.utils.tensorboard import SummaryWriter
-from monodepth.depth_model_registry import get_depth_model
+from .monodepth.depth_model_registry import get_depth_model
 
-import optimizer
-from loaders.video_dataset import VideoDataset, VideoFrameDataset
-from loss.joint_loss import JointLoss
-from loss.loss_params import LossParams
-from pose_optimization import PoseOptimizer
-from utils import image_io, visualization
-from utils.helpers import SuppressedStdout
-from utils.torch_helpers import to_device
+from . import optimizer
+from .loaders.video_dataset import VideoDataset, VideoFrameDataset
+from .loss.joint_loss import JointLoss
+from .loss.loss_params import LossParams
+from .pose_optimization import PoseOptimizer
+from .utils import image_io, visualization
+from .utils.helpers import SuppressedStdout
+from .utils.torch_helpers import to_device
 
 
 def get_tensorboard_prompt(log_dir: str) -> str:

@@ -12,8 +12,8 @@ import numpy as np
 import torch
 import torch.nn.functional as F
 import torch.utils.data as data
-from utils import frame_utils
-from utils.augmentor import FlowAugmentor, SparseFlowAugmentor
+from .utils import frame_utils
+from .utils.augmentor import FlowAugmentor, SparseFlowAugmentor
 
 
 class FlowDataset(data.Dataset):

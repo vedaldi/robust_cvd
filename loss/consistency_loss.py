@@ -3,9 +3,9 @@
 
 import torch
 import torch.nn as nn
-from loss import distance
-from utils.torch_helpers import _device
-from utils.geometry import (
+from . import distance
+from ..utils.torch_helpers import _device
+from ..utils.geometry import (
     pixel_grid,
     focal_length,
     project,
@@ -13,7 +13,7 @@ from utils.geometry import (
     reproject_points,
     sample,
 )
-from utils.loss import (
+from ..utils.loss import (
     select_tensors,
     weighted_mean_loss,
 )

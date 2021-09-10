@@ -6,7 +6,7 @@ import os
 from typing import List
 import shutil
 
-from lib_python import (
+from .lib.build.lib_python import (
     DepthVideo,
     DepthVideoImporter,
     DepthVideoPoseOptimizer,
@@ -22,7 +22,7 @@ from lib_python import (
     XformType,
 )
 
-from utils.helpers import Nestedspace
+from .utils.helpers import Nestedspace
 
 
 def convert_opt_params(src: Nestedspace) -> DepthVideoPoseOptimizer.Params:

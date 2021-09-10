@@ -14,7 +14,7 @@ import tqdm
 from detectron2.config import get_cfg
 from detectron2.data.detection_utils import read_image
 
-from utils.predictor import VisualizationDemo
+from .utils.predictor import VisualizationDemo
 
 
 """

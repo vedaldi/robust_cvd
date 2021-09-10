@@ -8,8 +8,8 @@ import subprocess
 import sys
 import logging
 
-from utils import image_io
-from utils import colormaps
+from . import image_io
+from . import colormaps
 
 
 def visualize_scene_flow(scene_flow):

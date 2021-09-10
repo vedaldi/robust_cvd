@@ -4,10 +4,10 @@ import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from raft.core.corr import CorrBlock
-from raft.core.extractor import BasicEncoder, SmallEncoder
-from raft.core.update import BasicUpdateBlock, SmallUpdateBlock
-from raft.core.utils.utils import coords_grid, upflow8
+from .corr import CorrBlock
+from .extractor import BasicEncoder, SmallEncoder
+from .update import BasicUpdateBlock, SmallUpdateBlock
+from .utils.utils import coords_grid, upflow8
 
 
 class RAFT(nn.Module):

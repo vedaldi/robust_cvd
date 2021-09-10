@@ -2,7 +2,7 @@
 # Copyright 2004-present Facebook. All Rights Reserved.
 
 import torch
-from utils.torch_helpers import _device
+from .torch_helpers import _device
 from typing import List
 
 

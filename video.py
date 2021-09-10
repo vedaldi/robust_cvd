@@ -8,8 +8,8 @@ import os.path as osp
 import sys
 import tempfile
 
-from utils import (frame_sampling, image_io)
-from utils.helpers import mkdir_ifnotexists
+from .utils import (frame_sampling, image_io)
+from .utils.helpers import mkdir_ifnotexists
 
 
 ffmpeg = "/usr/local/bin/ffmpeg"

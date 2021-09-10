@@ -3,7 +3,7 @@
 
 from torch.optim.optimizer import Optimizer
 from torch.optim import Adam
-from optimizer.radam import RAdam
+from .radam import RAdam
 
 OPTIMIZER_MAP = {
     "Adam": Adam,

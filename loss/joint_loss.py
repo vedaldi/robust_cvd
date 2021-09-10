@@ -6,13 +6,13 @@ from typing import List, Optional
 import torch
 from torch.nn import Parameter
 
-from loss.parameter_loss import ParameterLoss
-from loss.consistency_loss import ConsistencyLoss
-from loss.scene_flow_loss import SceneFlowLoss
-from loss.disparity_smooth_loss import DisparitySmoothLoss
-from loss.contrast_loss import ContrastLoss
-from utils.torch_helpers import _device
-from loaders.video_dataset import _dtype
+from .parameter_loss import ParameterLoss
+from .consistency_loss import ConsistencyLoss
+from .scene_flow_loss import SceneFlowLoss
+from .disparity_smooth_loss import DisparitySmoothLoss
+from .contrast_loss import ContrastLoss
+from ..utils.torch_helpers import _device
+from ..loaders.video_dataset import _dtype
 
 
 class JointLoss(torch.nn.Module):

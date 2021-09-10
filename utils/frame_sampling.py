@@ -7,7 +7,7 @@ from typing import Iterable, NamedTuple, Dict, Any, Set
 import numpy as np
 
 
-from utils.frame_range import FrameRange
+from .frame_range import FrameRange
 
 @unique
 class SamplePairsMode(Enum):

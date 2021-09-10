@@ -4,15 +4,15 @@
 import argparse
 import torch
 
-from monodepth.depth_model_registry import get_depth_model, get_depth_model_list
-from depth_fine_tuning import DepthFineTuningParams
-# from scale_calibration import ScaleCalibrationParams
-# from tools.colmap_processor import COLMAPParams
-# from tools.make_video import MakeVideoParams
-from utils import frame_sampling, frame_range
+from .monodepth.depth_model_registry import get_depth_model, get_depth_model_list
+from .depth_fine_tuning import DepthFineTuningParams
+# from .scale_calibration import ScaleCalibrationParams
+# from .tools.colmap_processor import COLMAPParams
+# from .tools.make_video import MakeVideoParams
+from .utils import frame_sampling, frame_range
 
-from lib_python import DepthVideoPoseOptimizer
-from utils.helpers import Nestedspace
+from .lib.build.lib_python import DepthVideoPoseOptimizer
+from .utils.helpers import Nestedspace
 
 
 def str2bool(v):

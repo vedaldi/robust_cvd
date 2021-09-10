@@ -9,7 +9,7 @@ import shutil
 import sys
 import tempfile
 
-from utils import frame_range
+from . import frame_range
 
 
 class dotdict(dict):
