@@ -47,8 +47,8 @@ def print_subbanner(text):
 
 
 def disable_output_stream_buffering():
-    sys.stdout = io.TextIOWrapper(open(sys.stdout.fileno(), "wb", 0), write_through=True)
-    sys.stderr = io.TextIOWrapper(open(sys.stderr.fileno(), "wb", 0), write_through=True)
+    sys.stdout = io.TextIOWrapper(open(os.dup(sys.stdout.fileno()), "wb", 0), write_through=True)
+    sys.stderr = io.TextIOWrapper(open(os.dup(sys.stderr.fileno()), "wb", 0), write_through=True)
 
 
 class SuppressedStdout:
