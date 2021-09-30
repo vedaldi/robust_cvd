@@ -172,6 +172,7 @@ PYBIND11_MODULE(lib_python, m) {
     m.def("logToStdout", &logToStdout);
 
     py::class_<Eigen::Quaternionf>(m, "Quaternionf")
+        .def(py::init<const Eigen::Matrix<float,3,3>&>())
         .def("x", (float& (Eigen::Quaternionf::*) ()) &Eigen::Quaternionf::x)
         .def("y", (float& (Eigen::Quaternionf::*) ()) &Eigen::Quaternionf::y)
         .def("z", (float& (Eigen::Quaternionf::*) ()) &Eigen::Quaternionf::z)
