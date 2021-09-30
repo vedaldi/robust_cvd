@@ -190,7 +190,7 @@ void DepthVideo::load(const std::string& path) {
     cs.height_ = read<int>(is);
 
     // if (fileFormat >= 12) {
-    //   bool hasGopTable = read<bool>(is);
+    bool hasGopTable = read<bool>(is);
     //   if (hasGopTable) {
     //     cs.gopTable_ = std::make_unique<GopTable>();
     //     cs.gopTable_->fread(is, fileFormat);
@@ -198,12 +198,14 @@ void DepthVideo::load(const std::string& path) {
     // }
 
     // Read color frames.
-    cs.frames_.resize(numFrames);
-    for (int frame = 0; frame < cs.frames_.size(); ++frame) {
+    // cs.frames_.resize(numFrames);
+    // for (int frame = 0; frame < cs.frames_.size(); ++frame) {
       // Using 'new' to access ColorFrame's private constructor.
-      cs.frames_[frame] =
-          std::unique_ptr<ColorFrame>(new ColorFrame(cs, frame));
-    }
+      // cs.frames_[frame] =
+          // std::unique_ptr<ColorFrame>(new ColorFrame(cs, frame));
+    // }
+
+    std::cout << is.tellg() << std::endl;
   }
 
   // Read depth streams.
@@ -233,7 +235,7 @@ void DepthVideo::load(const std::string& path) {
     ds.height_ = read<int>(is);
 
     // if (fileFormat >= 13) {
-    //   bool hasGopTable = read<bool>(is);
+    bool hasGopTable = read<bool>(is);
     //   if (hasGopTable) {
     //     ds.gopTable_ = std::make_unique<GopTable>();
     //     ds.gopTable_->fread(is, fileFormat);
