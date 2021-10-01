@@ -46,6 +46,9 @@ class Video3dParamsParser:
         self.parser.add_argument("--recon",
             choices=["colmap", "i3d", "hd_depth"], default="i3d")
 
+        self.parser.add_argument("--meta_file", type=str, default=None,
+             help="Path to the meta file with camera extrinsics and intrinsics (optional).")
+
         self.parser.add_argument("--scaling",
             choices=["extrinsics", "depth"], default="depth")
 

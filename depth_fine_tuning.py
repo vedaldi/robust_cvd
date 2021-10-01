@@ -308,8 +308,7 @@ class DepthFineTuner:
             self.reference_disparity[frame] = disparity
         return self.reference_disparity[frame]
 
-    def fine_tune(self, writer=None):
-        meta_file = None
+    def fine_tune(self, writer=None, meta_file=None):
 
         if self.params.recon == "colmap":
             if self.params.scaling == "extrinsics":

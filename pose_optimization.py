@@ -6,7 +6,11 @@ import os
 from typing import List
 import shutil
 
+import numpy as np
+import math
+
 from .lib.build.lib_python import (
+    Quaternionf,
     DepthVideo,
     DepthVideoImporter,
     DepthVideoPoseOptimizer,
@@ -155,6 +159,36 @@ class PoseOptimizer:
             dst_ds_id = self.depth_video.depthStreamIndex(depth_tag)
             self.copy_poses(src_ds_id, dst_ds_id)
 
+        # If ground-truth pose is available, import it
+        if os.path.exists(os.path.join(base_dir, "camera_poses.npz")):
+            data = np.load(os.path.join(base_dir, "camera_poses.npz"))
+            dst_ds_id = self.depth_video.depthStreamIndex(depth_tag)
+            dst_ds = self.depth_video.depthStream(dst_ds_id)
+            for i in range(self.depth_video.numFrames()):
+                dst_f = dst_ds.frame(i)
+
+                # Update depth and spatial transformation
+                # dst_f.depthXform().copyFrom(src_f.depthXform())
+                # dst_f.spatialXform().copyFrom(src_f.spatialXform())
+
+                # Update intrinsics and extrinsics
+                dst_f.extrinsics.orientation = Quaternionf(
+                    data['extrinsics'][i][:3, :3]
+                )
+                dst_f.extrinsics.position = data['extrinsics'][i][:, 3]
+                dst_f.intrinsics.hFov = 2 * math.atan2(
+                    data['image_size'][0] / 2,
+                    data['intrinsics'][i][0]
+                )
+                dst_f.intrinsics.vFov = 2 * math.atan2(
+                    data['image_size'][1] / 2,
+                    data['intrinsics'][i][1]
+                )
+                dst_f.intrinsics.centerLat = data['intrinsics'][i][2]
+                dst_f.intrinsics.centerLon = data['intrinsics'][i][3]
+
+            print("PoseOptimizer: Loaded GT poses")
+
         self.depth_video.printInfo()
         self.depth_video.save()
 
@@ -207,6 +241,19 @@ class PoseOptimizer:
         processor.process(params)
 
         processor.normalizeDepth(params, self.flow_constraints)
+
+        # av:
+        # self.depth_video.depthStream(0).frame(0).depthXform().desc()
+        # self.depth_video.depthStream(0).frame(0).depthXform().str()
+        # self.depth_video.depthStream(0).frame(0).extrinsics.left()
+        # for jjj in [0, 100]:
+        #     print(np.stack([
+        #         self.depth_video.depthStream(0).frame(jjj).extrinsics.left(),
+        #         self.depth_video.depthStream(0).frame(jjj).extrinsics.up(),
+        #         self.depth_video.depthStream(0).frame(jjj).extrinsics.backward(),
+        #         self.depth_video.depthStream(0).frame(jjj).extrinsics.position,
+        #     ], axis=1))
+        #     print(np.load('./data/4ce530-1_obj-st_False-traj_random-res_1024x1024/camera_poses.npz')['extrinsics'][jjj])
 
         # Now optimize poses and depth transforms jointly.
         processor.optimizePoses(params, self.flow_constraints)

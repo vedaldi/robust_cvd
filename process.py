@@ -66,6 +66,7 @@ class DatasetProcessor:
         self.writer = writer
         self.params = params
         self.path = self.params.path
+        self.meta_file = self.params.meta_file
 
         print("------------ Parameters -------------")
         print_namespace(self.params)
@@ -206,7 +207,7 @@ class DatasetProcessor:
         ft = DepthFineTuner(
             self.out_dir, frames=frames, base_dir=self.path, params=self.params
         )
-        ft.fine_tune(writer=self.writer)
+        ft.fine_tune(writer=self.writer, meta_file=self.meta_file)
 
         # if self.params.render_depth_streams:
         #     print_banner("Rendering depth streams")
