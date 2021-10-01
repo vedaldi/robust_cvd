@@ -165,6 +165,10 @@ class DatasetProcessor:
         except Exception as e:
             logging.exception(e)
 
+    def get_finetune_output_dir(self):
+        output_dir = self.create_output_path()
+        return DepthFineTuner.get_output_dir(output_dir, self.params)
+
     def pipeline(self):
         self.extract_frames()
         self.downscale_frames()

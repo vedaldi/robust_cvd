@@ -224,6 +224,10 @@ class DepthFineTuner:
 
         self.reference_disparity = {}
 
+    @staticmethod
+    def get_output_dir(range_dir, params):
+        return pjoin(range_dir, make_tag(params, params.exp_tag))
+
     def save_depth(self, dir: str = None, frames=None):
         save_depth_start_time = time.perf_counter()
 
