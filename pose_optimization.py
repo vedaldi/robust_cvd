@@ -160,8 +160,8 @@ class PoseOptimizer:
             self.copy_poses(src_ds_id, dst_ds_id)
 
         # If ground-truth pose is available, import it
-        if os.path.exists(os.path.join(base_dir, "camera_poses.npz")):
-            data = np.load(os.path.join(base_dir, "camera_poses.npz"))
+        if os.path.exists(os.path.join(base_dir, "gt_camera_poses.npz")):
+            data = np.load(os.path.join(base_dir, "gt_camera_poses.npz"))
             dst_ds_id = self.depth_video.depthStreamIndex(depth_tag)
             dst_ds = self.depth_video.depthStream(dst_ds_id)
             for i in range(self.depth_video.numFrames()):

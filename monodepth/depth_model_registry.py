@@ -7,13 +7,19 @@ from .midas_v2_model import MidasV2Model
 from typing import List
 
 
+class GTDepthModel:
+    learning_rate: float = 0
+
+
 def get_depth_model_list() -> List[str]:
-    return ["midas2"]
+    return ["midas2", "gt"]
 
 
 def get_depth_model(type: str) -> DepthModel:
     if type == "midas2":
         return MidasV2Model
+    elif type == "gt":
+        return GTDepthModel
     else:
         raise ValueError(f"Unsupported model type '{type}'.")
 
