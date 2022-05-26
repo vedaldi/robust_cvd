@@ -126,6 +126,7 @@ class PoseOptimizer:
         if os.path.exists(f"{base_dir}/depth_gt"):
             print("Importing ground truth depth...")
             self.depth_video.createDepthStream("depth_gt", "depth_gt", [-1, -1])
+
             poses_file = f"{base_dir}/depth_gt/poses.txt"
             if os.path.exists(poses_file):
                 print("Importing ground truth poses...")
@@ -158,13 +159,13 @@ class PoseOptimizer:
             dst_ds_id = self.depth_video.depthStreamIndex(depth_tag)
             self.copy_poses(src_ds_id, dst_ds_id)
 
-        # If ground-truth pose is available, copy it
+        # If ground-truth pose is available, copy it to the estimated depth stream.
         # if os.path.exists(f"{base_dir}/depth_gt") and depth_tag != "depth_gt":
         if opt_params.init_camera_from_gt:
             src_ds_id = self.depth_video.depthStreamIndex("depth_gt")
             dst_ds_id = self.depth_video.depthStreamIndex(depth_tag)
             self.copy_poses(src_ds_id, dst_ds_id)
-            print("Initialized the poses from ground turth")
+            print("Initialized the poses from ground truth")
 
         self.depth_video.printInfo()
         self.depth_video.save()
@@ -217,9 +218,22 @@ class PoseOptimizer:
         params.spatialXformDesc.valueXform = ValueXformType.Scale
         processor.process(params)
 
-        print(self.depth_video.depthStream(0).frame(1).extrinsics.position)
+        # print(self.depth_video.depthStream(0).frame(1).extrinsics.position)
+        for i in range(self.depth_video.numDepthStreams()):
+            print(
+                f"Initialization: depth stream {i}",
+                f"({self.depth_video.depthStream(i).name()})",
+                f" median depth: {np.median(self.depth_video.depthStream(i).frame(0).depth())}"
+            )
+
         # video_->depthFrame(depthStream_, 1).extrinsics.position.m_storage.m_data.array[2]
         processor.normalizeDepth(params, self.flow_constraints)
+
+        # self.depth_video.depthStream(1).frame(0).depthXform().desc().str()
+        for i in range(self.depth_video.numDepthStreams()):
+            ds = self.depth_video.depthStream(i)
+            print("stream", i, "median depth:", np.median(ds.frame(0).depth()),
+            "scale:", ds.frame(0).depthXform().desc().valueXform.value)
 
         # av:
         # self.depth_video.depthStream(0).frame(0).depthXform().desc()
@@ -236,6 +250,13 @@ class PoseOptimizer:
 
         # Now optimize poses and depth transforms jointly.
         processor.optimizePoses(params, self.flow_constraints)
+
+        for i in range(self.depth_video.numDepthStreams()):
+            print(
+                f"Initialization: depth stream {i}",
+                f"({self.depth_video.depthStream(i).name()})",
+                f" median depth: {np.median(self.depth_video.depthStream(i).frame(0).depth())}"
+            )
 
         # Fixing the estimated pose and updating the depth xform to per-frame scaling
         if self.use_global_scale:

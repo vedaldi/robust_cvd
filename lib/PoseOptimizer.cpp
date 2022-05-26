@@ -1170,6 +1170,7 @@ void DepthVideoPoseOptimizer::normalizeDepth(
   ceres::Solve(options, &*problem_, &summary);
   LOG(INFO) << summary.BriefReport();
 
+  // video_->depthFrame(1, 0).depthXform().params_[0]
   if (params.normalizeDepthFromFirstFrame) {
     // Copy first frame's depth xform to all other frames.
     const int firstFrame = params.frameRange.firstFrame();
@@ -1420,8 +1421,7 @@ void DepthVideoPoseOptimizer::addScaleRegularization(const Params& params) {
         depthSamples.end());
     double medianDepth = depthSamples[depthSamples.size() / 2];
 
-
-    LOG(INFO) << "  Median depth for frame " << frame << " = " << medianDepth;
+    // LOG(INFO) << "  Median depth for frame " << frame << " = " << medianDepth;
 
     // We add absolute depth constraints for a regular grid on each frame
     // to constrain the scale of the scene. This effectively constrains
