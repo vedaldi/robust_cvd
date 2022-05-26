@@ -191,6 +191,11 @@ class Video3dParamsParser:
         self.parser.add_argument(
             "--opt.dynamic_constraints", type=str,
             choices=["None", "Mask", "Ransac"], default="Mask")
+        self.parser.add_argument(
+            "--opt.init_camera_from_gt", type=str2bool, default="false")
+        self.parser.add_argument(
+            "--opt.init_depth_from_gt", type=str2bool, default="false")
+
 
     def add_fine_tuning_args(self):
         DepthFineTuningParams.add_arguments(self.parser)

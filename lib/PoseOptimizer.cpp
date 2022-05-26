@@ -35,6 +35,14 @@ using Vector3 = Matrix<T, 3, 1>;
 
 namespace fs = boost::filesystem;
 
+#include <mutex>
+#include <fstream>
+std::unique_ptr<std::ofstream> dump_file = nullptr;
+int num_dumped = 0;
+std::mutex dump_lock;
+double extract_scalar(double x) {return x;}
+template <typename T, int n> double extract_scalar(const ceres::Jet<T,n>& x) {return x.a;}
+
 namespace facebook {
 namespace cp {
 
@@ -191,6 +199,8 @@ Vector3<T> cameraToWorld(
       poseParams[2] + dirWorld[2] * depth);
 }
 
+
+
 // Project a world-space point to a camera's coordinate system.
 template <typename T>
 Vector3<T> worldToCamera(
@@ -279,6 +289,33 @@ struct StaticSceneCost {
       // Computing the static loss in camera 1's coordinate system.
       Vector3<T> pointCam0To1 =
           worldToCamera(pointWorld0, focal1, params1.pose);
+
+      if (dump_file) {
+        std::lock_guard<std::mutex> guard(dump_lock);
+
+        if (num_dumped < 100000) {
+          *dump_file << extract_scalar(pointCam0To1.x()) << ' '
+                     << extract_scalar(pointCam0To1.y()) << ' '
+                     << extract_scalar(pointCam0To1.z()) << ' '
+                     << extract_scalar(pointCam1.x()) << ' '
+                     << extract_scalar(pointCam1.y()) << ' '
+                     << extract_scalar(pointCam1.z()) << ' '
+                     << extract_scalar(params0.pose[0]) << ' '
+                     << extract_scalar(params0.pose[1]) << ' '
+                     << extract_scalar(params0.pose[2]) << ' '
+                     << extract_scalar(params0.pose[3]) << ' '
+                     << extract_scalar(params0.pose[4]) << ' '
+                     << extract_scalar(params0.pose[5]) << ' '
+                     << extract_scalar(params1.pose[0]) << ' '
+                     << extract_scalar(params1.pose[1]) << ' '
+                     << extract_scalar(params1.pose[2]) << ' '
+                     << extract_scalar(params1.pose[3]) << ' '
+                     << extract_scalar(params1.pose[4]) << ' '
+                     << extract_scalar(params1.pose[5]) << ' '
+                     << std::endl;
+          num_dumped++;
+        }
+      }
 
       staticLoss.x() = (pointCam0To1.x() - pointCam1.x()) * T(spatialWeight);
       staticLoss.y() = (pointCam0To1.y() - pointCam1.y()) * T(spatialWeight);
@@ -750,6 +787,11 @@ DepthVideoPoseOptimizer::DepthVideoPoseOptimizer(
     : video_(video), depthStream_(depthStream) {
   numFrames_ = video_->numFrames();
 
+  // av: video_->depthFrame(0, 1).extrinsics.position.m_storage.m_data.array[0] contains
+  // the initializatino data,
+  // but her ewe are looknig at   video_->depthFrame(depthStream, 1).extrinsics where
+  // depthStream = 1
+
   // Convert poses to optimizer internal representation
   poseParams_.resize(numFrames_);
   for (int frame = 0; frame < numFrames_; ++frame) {
@@ -949,6 +991,10 @@ void DepthVideoPoseOptimizer::poseOptimizationStep(
 
   if (params.focalReg > 0.0) {
     addFocalRegularization(params);
+  }
+
+  if (num_dumped == 0) {
+    dump_file = std::make_unique<std::ofstream>("points.txt");
   }
 
   LOG(INFO) << "Solving...";
@@ -1373,6 +1419,9 @@ void DepthVideoPoseOptimizer::addScaleRegularization(const Params& params) {
         depthSamples.begin() + depthSamples.size() / 2,
         depthSamples.end());
     double medianDepth = depthSamples[depthSamples.size() / 2];
+
+
+    LOG(INFO) << "  Median depth for frame " << frame << " = " << medianDepth;
 
     // We add absolute depth constraints for a regular grid on each frame
     // to constrain the scale of the scene. This effectively constrains
